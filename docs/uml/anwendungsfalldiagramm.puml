@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor "Spieler" as Player
+actor "Quiz-Ersteller" as Creator
+Creator --|> Player
+rectangle "DHBW Quizgame" {
+  usecase "Spielwelt erkunden" as UC1
+  usecase "Mit NPC interagieren" as UC2
+  usecase "Quizmodul auswählen" as UC3
+  usecase "Quiz spielen" as UC4
+  usecase "Quiz beantworten" as UC5
+  usecase "Hinweis anzeigen" as UC6
+  usecase "Ergebnis anzeigen
+(Entwurf)" as UC7
+  usecase "Quizmodul erstellen" as UC8
+  usecase "Fragen konfigurieren" as UC9
+  usecase "NPC erstellen" as UC10
+  usecase "PNG zuweisen" as UC11
+  usecase "Modul NPC zuordnen" as UC12
+  usecase "Quiz importieren/exportieren" as UC13
+  usecase "NPC importieren/exportieren" as UC14
+}
+Player --> UC1
+Player --> UC2
+Player --> UC3
+Player --> UC4
+Player --> UC6
+Creator --> UC8
+Creator --> UC10
+Creator --> UC12
+Creator --> UC13
+Creator --> UC14
+UC4 .> UC5 : <<include>>
+UC7 .> UC4 : <<extend>>
+UC8 .> UC9 : <<include>>
+UC10 .> UC11 : <<include>>
+@enduml

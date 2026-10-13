@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+actor "Spieler" as Spieler
+rectangle "DHBW Quizgame" {
+  usecase "Spielwelt erkunden\nund NPC ansprechen" as UC01
+  usecase "Quizmodul spielen" as UC02
+  usecase "Quizmodul erstellen" as UC03
+  usecase "NPC erstellen\nund Quiz zuordnen" as UC04
+  usecase "Quizmodule und\nNPCs exportieren" as UC05
+  usecase "Quizmodule und\nNPCs importieren" as UC06
+}
+Spieler -- UC01
+Spieler -- UC02
+Spieler -- UC03
+Spieler -- UC04
+Spieler -- UC05
+Spieler -- UC06
+@enduml
