@@ -1,0 +1,196 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Seite-1" id="_MNFr5TIb2uZw5lG-jQx">
+    <mxGraphModel dx="667" dy="372" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Skin Menu" vertex="1">
+          <mxGeometry height="30" width="60" x="140" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-6" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-2" parent="1" style="ellipse;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="120" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-3" edge="1" parent="1" style="endArrow=open;html=1;rounded=0;align=center;verticalAlign=top;endFill=0;labelBackgroundColor=none;endSize=6;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-2" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="225" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-4" parent="1" style="html=1;dashed=0;rounded=1;absoluteArcSize=1;arcSize=20;verticalAlign=middle;align=center;whiteSpace=wrap;" value="User enters skin Menu by clicking the menu item in the UI" vertex="1">
+          <mxGeometry height="50" width="160" x="240" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-5" parent="039-KhYDxlf1_Nlo8YiK-4" style="text;resizeWidth=0;resizeHeight=0;points=[];part=1;verticalAlign=middle;align=center;html=1;" value="*" vertex="1">
+          <mxGeometry height="20" relative="1" width="20" x="1" y="0.5" as="geometry">
+            <mxPoint x="-20" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-7" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=gap;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="480" y="225" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-8" parent="1" style="html=1;dashed=0;rounded=1;absoluteArcSize=1;arcSize=20;verticalAlign=middle;align=center;whiteSpace=wrap;" value="User Clicks on Skin" vertex="1">
+          <mxGeometry height="50" width="160" x="480" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-9" parent="039-KhYDxlf1_Nlo8YiK-8" style="text;resizeWidth=0;resizeHeight=0;points=[];part=1;verticalAlign=middle;align=center;html=1;" value="*" vertex="1">
+          <mxGeometry height="20" relative="1" width="20" x="1" y="0.5" as="geometry">
+            <mxPoint x="-20" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-13" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-14" connectable="0" parent="039-KhYDxlf1_Nlo8YiK-13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];defaultLabelBackgroundColor=gap;" value="yes" vertex="1">
+          <mxGeometry relative="1" x="-0.3467" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-16" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=gap;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="740" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-48" connectable="0" parent="039-KhYDxlf1_Nlo8YiK-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];defaultLabelBackgroundColor=gap;" value="no" vertex="1">
+          <mxGeometry relative="1" x="-0.2063" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-10" parent="1" style="rhombus;" value="Is Skin &#xa;Unlocked" vertex="1">
+          <mxGeometry height="90" width="100" x="690" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-40" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-11" parent="1" style="html=1;dashed=0;rounded=1;absoluteArcSize=1;arcSize=20;verticalAlign=middle;align=center;whiteSpace=wrap;" value="Skin is selected" vertex="1">
+          <mxGeometry height="50" width="160" x="890" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-12" parent="039-KhYDxlf1_Nlo8YiK-11" style="text;resizeWidth=0;resizeHeight=0;points=[];part=1;verticalAlign=middle;align=center;html=1;" value="*" vertex="1">
+          <mxGeometry height="20" relative="1" width="20" x="1" y="0.5" as="geometry">
+            <mxPoint x="-20" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-15" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-24" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-25" connectable="0" parent="039-KhYDxlf1_Nlo8YiK-24" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];defaultLabelBackgroundColor=gap;" value="no" vertex="1">
+          <mxGeometry relative="1" x="-0.1944" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-17" parent="1" style="rhombus;" value="Does User have&#xa;enough Stars&#xa;to unlock" vertex="1">
+          <mxGeometry height="90" width="100" x="690" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-30" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-18" parent="1" style="html=1;dashed=0;rounded=1;absoluteArcSize=1;arcSize=20;verticalAlign=middle;align=center;whiteSpace=wrap;" value="&lt;div&gt;User is prompted to buy&lt;/div&gt;&lt;div&gt;the Skin&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="160" x="414" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-19" parent="039-KhYDxlf1_Nlo8YiK-18" style="text;resizeWidth=0;resizeHeight=0;points=[];part=1;verticalAlign=middle;align=center;html=1;" value="*" vertex="1">
+          <mxGeometry height="20" relative="1" width="20" x="1" y="0.5" as="geometry">
+            <mxPoint x="-20" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-20" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.033;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-21" connectable="0" parent="039-KhYDxlf1_Nlo8YiK-20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];defaultLabelBackgroundColor=gap;" value="yes" vertex="1">
+          <mxGeometry relative="1" x="0.0982" y="-4" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-22" parent="1" style="html=1;dashed=0;rounded=1;absoluteArcSize=1;arcSize=20;verticalAlign=middle;align=center;whiteSpace=wrap;" value="User is getting the Information that he is missing stars" vertex="1">
+          <mxGeometry height="50" width="160" x="660" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-23" parent="039-KhYDxlf1_Nlo8YiK-22" style="text;resizeWidth=0;resizeHeight=0;points=[];part=1;verticalAlign=middle;align=center;html=1;" value="*" vertex="1">
+          <mxGeometry height="20" relative="1" width="20" x="1" y="0.5" as="geometry">
+            <mxPoint x="-20" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-53" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-50">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="310" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-54" connectable="0" parent="039-KhYDxlf1_Nlo8YiK-53" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];defaultLabelBackgroundColor=gap;" value="no" vertex="1">
+          <mxGeometry relative="1" x="0.1819" y="4" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-26" parent="1" style="rhombus;" value="does the User&#xa;Buy the skin" vertex="1">
+          <mxGeometry height="90" width="100" x="260" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-34" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-11">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="140" y="720" />
+              <mxPoint x="970" y="720" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-28" parent="1" style="html=1;dashed=0;rounded=1;absoluteArcSize=1;arcSize=20;verticalAlign=middle;align=center;whiteSpace=wrap;" value="Skin is unlocked" vertex="1">
+          <mxGeometry height="50" width="160" x="60" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-29" parent="039-KhYDxlf1_Nlo8YiK-28" style="text;resizeWidth=0;resizeHeight=0;points=[];part=1;verticalAlign=middle;align=center;html=1;" value="*" vertex="1">
+          <mxGeometry height="20" relative="1" width="20" x="1" y="0.5" as="geometry">
+            <mxPoint x="-20" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-31" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.244;entryY=0.467;entryDx=0;entryDy=0;entryPerimeter=0;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-47" connectable="0" parent="039-KhYDxlf1_Nlo8YiK-31" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];defaultLabelBackgroundColor=gap;" value="yes" vertex="1">
+          <mxGeometry relative="1" x="-0.1572" y="-1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-43" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-37" parent="1" style="html=1;dashed=0;rounded=1;absoluteArcSize=1;arcSize=20;verticalAlign=middle;align=center;whiteSpace=wrap;" value="User confirms skin change" vertex="1">
+          <mxGeometry height="50" width="160" x="1140" y="201" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-38" parent="039-KhYDxlf1_Nlo8YiK-37" style="text;resizeWidth=0;resizeHeight=0;points=[];part=1;verticalAlign=middle;align=center;html=1;" value="*" vertex="1">
+          <mxGeometry height="20" relative="1" width="20" x="1" y="0.5" as="geometry">
+            <mxPoint x="-20" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-46" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-41" parent="1" style="html=1;dashed=0;rounded=1;absoluteArcSize=1;arcSize=20;verticalAlign=middle;align=center;whiteSpace=wrap;" value="Skin changes" vertex="1">
+          <mxGeometry height="50" width="160" x="1440" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-42" parent="039-KhYDxlf1_Nlo8YiK-41" style="text;resizeWidth=0;resizeHeight=0;points=[];part=1;verticalAlign=middle;align=center;html=1;" value="*" vertex="1">
+          <mxGeometry height="20" relative="1" width="20" x="1" y="0.5" as="geometry">
+            <mxPoint x="-20" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-44" parent="1" style="ellipse;html=1;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="1720" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-45" edge="1" parent="1" style="endArrow=open;html=1;rounded=0;align=center;verticalAlign=top;endFill=0;labelBackgroundColor=none;endSize=6;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-44" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1680" y="225" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-49" edge="1" parent="1" source="039-KhYDxlf1_Nlo8YiK-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=gap;" target="039-KhYDxlf1_Nlo8YiK-50" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="225" as="sourcePoint" />
+            <mxPoint x="240" y="225" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="039-KhYDxlf1_Nlo8YiK-50" parent="1" style="rhombus;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="170" y="250" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
