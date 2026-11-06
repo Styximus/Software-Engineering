@@ -1,0 +1,6 @@
+*
+!src/
+!src/*.java
+!samples/
+!samples/catalog/
+!samples/catalog/*.qmap

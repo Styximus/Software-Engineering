@@ -1,0 +1,13 @@
+services:
+  workshop:
+    build: .
+    ports:
+      - "8765:8765"
+    volumes:
+      - workshop-maps:/data
+    environment:
+      - QUIZMASTER_TOKEN=${QUIZMASTER_TOKEN:?Set QUIZMASTER_TOKEN for the shared server}
+    restart: unless-stopped
+
+volumes:
+  workshop-maps:
