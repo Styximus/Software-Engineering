@@ -52,15 +52,97 @@ public record MapPackage(String title, String author, String category, String de
             throw new IOException("Spieler und NPC brauchen verschiedene begehbare Positionen.");
         int count = number(p, "questions", 1, 10);
         List<Question> questions = new ArrayList<>();
+
         for (int i = 0; i < count; i++) {
             String prefix = "q." + i + ".";
-            List<String> answers = new ArrayList<>();
-            for (int a = 0; a < 4; a++) answers.add(text(p, prefix + "a." + a, 65));
-            questions.add(new Question(text(p, prefix + "text", 130), answers,
-                number(p, prefix + "correct", 0, 3), text(p, prefix + "explanation", 200)));
+
+            String questionText = text(p, prefix + "text", 130);
+            String explanation = text(p, prefix + "explanation", 200);
+
+            QuestionType type;
+
+            try {
+                type = QuestionType.valueOf(
+                        text(p, prefix + "type", 30).toUpperCase()
+                );
+            } catch (IllegalArgumentException error) {
+                throw new IOException("Ungültiger Fragetyp: " + prefix + "type");
+            }
+
+            switch (type) {
+                case MULTIPLE_CHOICE -> {
+                    List<String> answers = new ArrayList<>();
+
+                    for (int a = 0; a < 4; a++) {
+                        answers.add(text(p, prefix + "a." + a, 65));
+                    }
+
+                    String[] correctValues = text(
+                            p, prefix + "correct", 20
+                    ).split(",");
+
+                    Set<Integer> correctIndices = new HashSet<>();
+
+                    try {
+                        for (String value : correctValues) {
+                            int index = Integer.parseInt(value.strip());
+
+                            if (index < 0 || index >= answers.size()) {
+                                throw new NumberFormatException();
+                            }
+
+                            correctIndices.add(index);
+                        }
+                    } catch (NumberFormatException error) {
+                        throw new IOException("Ungültige Multiple-Choice-Antwort.");
+                    }
+
+                    questions.add(new MultipleChoiceQuestion(
+                            i, questionText, 10, explanation,
+                            answers, correctIndices
+                    ));
+                }
+
+                case TRUE_FALSE -> {
+                    String correct = text(p, prefix + "correct", 5);
+
+                    if (!correct.equalsIgnoreCase("true")
+                            && !correct.equalsIgnoreCase("false")) {
+                        throw new IOException("Ungültige Wahr/Falsch-Antwort.");
+                    }
+
+                    questions.add(new TrueFalseQuestion(
+                            i, questionText, 10, explanation,
+                            Boolean.parseBoolean(correct)
+                    ));
+                }
+
+                case TEXT -> {
+                    questions.add(new TextQuestion(
+                            i, questionText, 10, explanation,
+                            text(p, prefix + "correct", 130)
+                    ));
+                }
+
+                case CLOZE_TEST -> {
+                    String[] correctAnswers = text(
+                            p, prefix + "correct", 300
+                    ).split(";");
+
+                    int points = number(p, prefix + "points", 1, 100);
+
+                    questions.add(new ClozeTestQuestion(
+                            i,
+                            questionText,
+                            points,
+                            explanation,
+                            correctAnswers
+                    ));
+                }
+            }
         }
         MapPackage map = new MapPackage(title, author, category, description, List.copyOf(tiles),
-            sx, sy, nx, ny, text(p, "npc.name", 30), List.copyOf(questions));
+            sx, sy, nx, ny, text(p, "npc.name", 30), new ArrayList<>(questions));
         if (!map.reachable()) throw new IOException("Der Quiz-NPC ist vom Startpunkt nicht erreichbar.");
         return map;
     }

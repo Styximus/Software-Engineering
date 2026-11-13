@@ -1,70 +1,175 @@
+
 import java.util.List;
 
-/** Quiz state and scoring. Deliberately independent of Swing. */
+/**
+ * Manages the state and scoring of a quiz.
+ * This class is independent of the user interface.
+ */
 public final class QuizService {
-    public enum State { READY, QUESTION, FEEDBACK, FINISHED }
+
+    public enum State {
+        READY,
+        QUESTION,
+        FEEDBACK,
+        FINISHED
+    }
 
     private final List<Question> questions;
+
     private State state = State.READY;
-    private int index;
-    private int score;
-    private boolean lastCorrect;
 
+    private int index = 0;
+    private int score = 0;
+
+    private boolean lastCorrect = false;
+
+    /**
+     * Creates a new quiz session.
+     *
+     * @param questions the questions belonging to this quiz
+     */
     public QuizService(List<Question> questions) {
+
+        if (questions == null || questions.isEmpty()) {
+            throw new IllegalArgumentException(
+                    "The quiz must contain at least one question."
+            );
+        }
+
         this.questions = List.copyOf(questions);
-        if (this.questions.isEmpty()) throw new IllegalArgumentException("Das Quiz ist leer.");
     }
 
-    public static QuizService demo() {
-        return new QuizService(List.of(
-            new Question("Welcher Baum trägt Eicheln?",
-                List.of("Die Buche", "Die Eiche", "Die Birke", "Die Fichte"), 1,
-                "Eicheln sind die Früchte der Eiche. Sie sind Nahrung für viele Waldtiere."),
-            new Question("Was brauchen Pflanzen für die Fotosynthese?",
-                List.of("Mondlicht", "Salz", "Sonnenlicht", "Sand"), 2,
-                "Pflanzen nutzen Lichtenergie, um aus Wasser und Kohlenstoffdioxid Zucker zu bilden."),
-            new Question("Welches dieser Tiere ist ein Säugetier?",
-                List.of("Der Delfin", "Der Frosch", "Die Forelle", "Die Eidechse"), 0,
-                "Delfine atmen mit Lungen und säugen ihre Jungen. Sie gehören zu den Säugetieren.")
-        ));
-    }
-
+    /**
+     * Starts or restarts the quiz.
+     */
     public void start() {
+
         index = 0;
         score = 0;
         lastCorrect = false;
+
         state = State.QUESTION;
     }
 
-    public boolean submit(int answer) {
+    /**
+     * Submits an answer for the current question.
+     *
+     * @param answer the answer provided by the user
+     * @return true if the answer is correct, otherwise false
+     */
+    public boolean submit(String answer) {
+
         require(State.QUESTION);
-        if (answer < 0 || answer >= currentQuestion().answers().size()) {
-            throw new IllegalArgumentException("Bitte wähle eine Antwort aus.");
+
+        if (answer == null || answer.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Please enter an answer."
+            );
         }
-        lastCorrect = answer == currentQuestion().correctIndex();
-        if (lastCorrect) score++;
+
+        Question question = currentQuestion();
+
+        lastCorrect = question.checkAnswer(answer);
+
+        if (lastCorrect) {
+            score += question.getPoints();
+        }
+
         state = State.FEEDBACK;
+
         return lastCorrect;
     }
 
+    /**
+     * Moves to the next question.
+     * If there are no more questions, the quiz is finished.
+     */
     public void next() {
+
         require(State.FEEDBACK);
-        if (index + 1 == questions.size()) state = State.FINISHED;
-        else {
+
+        if (index + 1 >= questions.size()) {
+            state = State.FINISHED;
+        } else {
             index++;
             state = State.QUESTION;
         }
     }
 
+    /**
+     * Checks whether an operation is allowed
+     * in the current quiz state.
+     */
     private void require(State expected) {
-        if (state != expected) throw new IllegalStateException("Aktion im aktuellen Zustand nicht möglich.");
+
+        if (state != expected) {
+            throw new IllegalStateException(
+                    "This action is not allowed in the current quiz state."
+            );
+        }
     }
 
-    public Question currentQuestion() { return questions.get(index); }
-    public State state() { return state; }
-    public int index() { return index; }
-    public int total() { return questions.size(); }
-    public int score() { return score; }
-    public boolean lastCorrect() { return lastCorrect; }
-    public int answered() { return index + (state == State.FEEDBACK || state == State.FINISHED ? 1 : 0); }
+    /**
+     * Returns the currently active question.
+     */
+    public Question currentQuestion() {
+        return questions.get(index);
+    }
+
+    /**
+     * Returns the current quiz state.
+     */
+    public State state() {
+        return state;
+    }
+
+    /**
+     * Returns the current question index (starting at 0).
+     */
+    public int index() {
+        return index;
+    }
+
+    /**
+     * Returns the total number of questions.
+     */
+    public int total() {
+        return questions.size();
+    }
+
+    /**
+     * Returns the current score.
+     */
+    public int score() {
+        return score;
+    }
+
+    /**
+     * Returns the maximum possible score.
+     */
+    public int maxScore() {
+
+        return questions.stream()
+                .mapToInt(Question::getPoints)
+                .sum();
+    }
+
+    /**
+     * Returns whether the last submitted answer was correct.
+     */
+    public boolean lastCorrect() {
+        return lastCorrect;
+    }
+
+    /**
+     * Returns the number of questions already answered.
+     */
+    public int answered() {
+
+        return index + (
+                state == State.FEEDBACK || state == State.FINISHED
+                        ? 1
+                        : 0
+        );
+    }
 }
