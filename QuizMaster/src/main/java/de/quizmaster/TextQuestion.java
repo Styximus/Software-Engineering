@@ -19,7 +19,7 @@ public class TextQuestion extends Question{
 
     @Override
     public boolean checkAnswer(String answer) {
-        return answer.trim().equalsIgnoreCase(this.answer.trim());
+        return answer != null && answer.trim().equalsIgnoreCase(this.answer.trim());
     }
 
     @Override

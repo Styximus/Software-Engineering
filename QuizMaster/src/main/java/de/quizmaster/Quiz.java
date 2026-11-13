@@ -12,7 +12,7 @@ public class Quiz {
 
     public Quiz(int id, Question[] questions) {
         this.id = id;
-        this.questions = questions;
+        this.questions = questions.clone();
         this.starsAchieved = 0;
         determineMaxPoints();
     }

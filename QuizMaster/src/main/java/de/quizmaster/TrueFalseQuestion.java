@@ -19,7 +19,10 @@ public class TrueFalseQuestion extends Question{
 
     @Override
     public boolean checkAnswer(String answer) {
-        return Boolean.parseBoolean(answer) == this.answer;
+        if (answer == null) return false;
+        String value = answer.trim();
+        if (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false")) return false;
+        return Boolean.parseBoolean(value) == this.answer;
     }
 
     @Override
