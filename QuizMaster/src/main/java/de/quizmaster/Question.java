@@ -13,7 +13,7 @@ public abstract class Question {
 
     
     public int getId() {
-        return 0;
+        return id;
     }
     public String getQuestionText() {
         return questionText;
