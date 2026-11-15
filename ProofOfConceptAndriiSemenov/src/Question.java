@@ -1,14 +1,48 @@
-import java.util.List;
+public abstract class Question {
 
-/** Immutable demo content; exactly one answer is correct. */
-public record Question(String text, List<String> answers, int correctIndex, String explanation) {
-    public Question {
-        answers = List.copyOf(answers);
-        if (text == null || text.isBlank() || answers.size() < 2
-                || answers.stream().anyMatch(a -> a == null || a.isBlank())
-                || correctIndex < 0 || correctIndex >= answers.size()
-                || explanation == null || explanation.isBlank()) {
-            throw new IllegalArgumentException("Ungültige Frage.");
-        }
+    private final int id;
+    private final String questionText;
+    private final int points;
+    private final String explanation;
+
+    public Question(int id, String questionText, int points) {
+        this(id, questionText, points, "");
     }
+
+    public Question(
+            int id,
+            String questionText,
+            int points,
+            String explanation
+    ) {
+        this.id = id;
+        this.questionText = questionText;
+        this.points = points;
+        this.explanation = explanation;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getText() {
+        return questionText;
+    }
+
+    // Retained for compatibility with existing code
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public abstract boolean checkAnswer(String answer);
+
+    public abstract QuestionType getType();
 }
