@@ -224,6 +224,9 @@ public final class WorkshopUI extends JPanel {
                 busy = false;
                 try { done.accept(get()); }
                 catch (Exception error) {
+                    System.err.println(error.getMessage());
+                    System.err.println(error.getCause().getMessage());
+                    error.printStackTrace();
                     Throwable reason = error.getCause() == null ? error : error.getCause();
                     status.setText(reason.getMessage() != null && reason.getMessage().startsWith("Server ")
                         ? reason.getMessage() : "Server nicht verfügbar oder Anfrage fehlgeschlagen. Bibliothek bleibt offline nutzbar.");
