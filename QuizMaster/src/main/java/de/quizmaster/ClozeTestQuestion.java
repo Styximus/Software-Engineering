@@ -9,15 +9,15 @@ public class ClozeTestQuestion extends Question{
 
     public ClozeTestQuestion(int id, String questionText, String[] answers,int points) {
         super(id, questionText,points);
-        this.answers = answers;
+        this.answers = answers.clone();
     }
 
     public String[] getAnswer() {
-        return answers;
+        return answers.clone();
     }
 
     public void setAnswer(String[] answers) {
-        this.answers = answers;
+        this.answers = answers.clone();
     }
     public int getGapCount() {
         Matcher matcher = Pattern.compile("\\{\\d+\\}").matcher(getQuestionText());
@@ -29,6 +29,7 @@ public class ClozeTestQuestion extends Question{
     }
     @Override
     public boolean checkAnswer(String answer){
+        if (answer == null) return false;
         String[] submittedAnswers = answer.split(";",-1);
         if (submittedAnswers.length != this.answers.length){
             return false;
