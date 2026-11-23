@@ -1,4 +1,4 @@
-package de.quizmaster;
+package de.quizmaster.model;
 
 import java.io.File;
 import java.util.HashMap;

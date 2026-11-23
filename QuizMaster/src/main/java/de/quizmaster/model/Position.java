@@ -1,4 +1,4 @@
-package de.quizmaster;
+package de.quizmaster.model;
 
 public class Position {
 

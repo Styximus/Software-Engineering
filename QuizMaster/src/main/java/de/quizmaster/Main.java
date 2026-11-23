@@ -1,5 +1,9 @@
 package de.quizmaster;
 
+import de.quizmaster.model.Npc;
+import de.quizmaster.service.DemoQuizzes;
+import de.quizmaster.ui.QuestionUserInterface;
+
 /** Local demonstration entry point for the shared quiz view. */
 public class Main {
     public static void main(String[] args) {
@@ -17,3 +21,4 @@ public class Main {
         frame.revalidate(); frame.repaint();
     }
 }
+

@@ -1,5 +1,5 @@
 
-package de.quizmaster;
+package de.quizmaster.model;
 
 import java.util.Arrays;
 

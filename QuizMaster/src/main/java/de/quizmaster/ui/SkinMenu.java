@@ -1,4 +1,6 @@
-package de.quizmaster;
+package de.quizmaster.ui;
+
+import de.quizmaster.model.Player;
 
 import java.awt.Image;
 

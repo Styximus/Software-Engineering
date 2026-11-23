@@ -1,5 +1,9 @@
 package de.quizmaster;
 
+import de.quizmaster.model.*;
+import de.quizmaster.service.DemoQuizzes;
+import de.quizmaster.ui.QuestionUserInterface;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.file.*;

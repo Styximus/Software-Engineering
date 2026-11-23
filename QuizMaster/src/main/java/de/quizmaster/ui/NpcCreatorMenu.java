@@ -1,4 +1,8 @@
-package de.quizmaster;
+package de.quizmaster.ui;
+
+import de.quizmaster.service.NpcCreatorException;
+import de.quizmaster.model.Npc;
+import de.quizmaster.model.Position;
 
 import java.io.File;
 
@@ -15,7 +19,7 @@ public class NpcCreatorMenu {
         return;
     }
     
-    private Npc createNpc() throws NpcCreatorException{
+    private Npc createNpc() throws NpcCreatorException {
         return null;
     }
 

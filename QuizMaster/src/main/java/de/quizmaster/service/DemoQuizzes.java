@@ -1,8 +1,10 @@
-package de.quizmaster;
+package de.quizmaster.service;
+
+import de.quizmaster.model.*;
 
 /** Demonstration content; production callers supply their own Npc and Quiz. */
-final class DemoQuizzes {
-    static Npc biology() {
+public final class DemoQuizzes {
+    public static Npc biology() {
         Quiz quiz = new Quiz(1, new Question[]{
             new MultipleChoiceQuestion(101, "Was brauchen Pflanzen für die Fotosynthese?",
                 new String[]{"Sonnenlicht", "Wasser", "Kohlenstoffdioxid", "Sand"}, new int[]{0, 1, 2}, 3),
