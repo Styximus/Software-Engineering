@@ -24,7 +24,7 @@ angenommen
 ## Konsequenzen
 
 * Gut, weil Swing Teil des JDK ist und keine Installation zusätzlicher Bibliotheken nötig ist.
-* Gut, weil ohne Netzwerkzugriffe Risiken bei Verfügbarkeit und Sicherheit entfallen und die Reaktionszeiten kurz sind (Qualitätsszenario Leistungsfähigkeit).
+* Gut, weil ohne Netzwerkzugriffe Risiken bei Verfügbarkeit und Sicherheit entfallen und die Reaktionszeiten kurz sind (Qualitätsszenarien Q1 und Q2, Effizienz).
 * Schlecht, weil ein modernes Aussehen eigenen Gestaltungsaufwand erfordert (gelöst über `QuizTheme`, Figma-Ressourcen und eigene Schriftarten).
 * Schlecht, weil die Anwendung nicht im Browser oder auf Smartphones läuft.
 * Schlecht, weil der HTML-PoC für die Anwendung nicht weiterverwendet werden kann.

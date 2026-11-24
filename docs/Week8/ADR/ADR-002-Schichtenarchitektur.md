@@ -2,7 +2,7 @@
 
 ## Kontext und Problemstellung
 
-Die PoCs der ersten Demo waren unabhängige Programme mit jeweils eigenen Klassen. Im gemeinsamen Projekt arbeiten sechs Personen parallel, und Änderungen an einem Teil, z. B. an der Oberfläche, sollen möglichst wenige andere Teile betreffen (Qualitätsszenario Änderbarkeit, hohe Priorität). Wie strukturieren wir den Code, damit das möglich ist?
+Die PoCs der ersten Demo waren unabhängige Programme mit jeweils eigenen Klassen. Im gemeinsamen Projekt arbeiten sechs Personen parallel, und Änderungen an einem Teil, z. B. an der Oberfläche, sollen möglichst wenige andere Teile betreffen (Qualitätsszenario Q3, Änderbarkeit, hohe Priorität). Wie strukturieren wir den Code, damit das möglich ist?
 
 ## Betrachtete Varianten
 

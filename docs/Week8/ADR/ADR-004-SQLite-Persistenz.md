@@ -2,7 +2,7 @@
 
 ## Kontext und Problemstellung
 
-Quizzes, NPCs (inklusive PNG-Bild) und der Spielstand müssen dauerhaft gespeichert werden. Die Anwendung läuft lokal ohne Server, und gespeicherte Daten dürfen bei Fehlern nicht beschädigt werden (Qualitätsszenario Zuverlässigkeit). Wo und wie speichern wir die Daten?
+Quizzes, NPCs (inklusive PNG-Bild) und der Spielstand müssen dauerhaft gespeichert werden. Die Anwendung läuft lokal ohne Server, und gespeicherte Daten dürfen bei Fehlern nicht beschädigt werden (Qualitätsszenario Q5, Zuverlässigkeit). Wo und wie speichern wir die Daten?
 
 ## Betrachtete Varianten
 

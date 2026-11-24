@@ -2,7 +2,7 @@
 
 ## Kontext und Problemstellung
 
-Laut User Story 1 sollen Spieler Quizzes und NPCs mit anderen teilen können. Online-Funktionen sind für die erste Version nicht verbindlich. Importierte Dateien können von anderen Personen stammen und fehlerhaft sein, und laut Qualitätsszenario Zuverlässigkeit darf die Anwendung dabei nicht abstürzen. Wie tauschen Spieler Inhalte aus?
+Laut User Story 1 sollen Spieler Quizzes und NPCs mit anderen teilen können. Online-Funktionen sind für die erste Version nicht verbindlich. Importierte Dateien können von anderen Personen stammen und fehlerhaft sein, und laut Qualitätsszenario Q5 (Zuverlässigkeit) darf die Anwendung dabei nicht abstürzen. Wie tauschen Spieler Inhalte aus?
 
 ## Betrachtete Varianten
 
