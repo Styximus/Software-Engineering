@@ -1,6 +1,6 @@
 # Architekturentscheidungen und Designprinzipien – QuizMaster
 
-Stand: 19.11.2026 · Grundlage: [Qualitätsszenarien](Qualitaetsszenarien.md), [SRS](../SoftwareAnforderungsspezifikation.md), Klassendiagramm und aktueller Code im Ordner `QuizMaster/`
+Stand: 24.11.2026 · Grundlage: [Qualitätsszenarien](Qualitaetsszenarien.md), [Qualitätsbaum](Qualit%C3%A4tsbaum%20QuizMaster.docx), [SRS](../SoftwareAnforderungsspezifikation.md), Klassendiagramm und aktueller Code im Ordner `QuizMaster/`
 
 Dieses Dokument folgt dem 3-Schritte-Workflow aus der Vorlesung:
 
@@ -33,28 +33,30 @@ Dieses Dokument folgt dem 3-Schritte-Workflow aus der Vorlesung:
 
 ## 2. Schritt 1: Qualitätsbaum
 
-Die Qualitätsszenarien selbst stehen in [Qualitaetsszenarien.md](Qualitaetsszenarien.md). Der Qualitätsbaum ordnet sie den Qualitätsmerkmalen zu und priorisiert sie.
+Die Qualitätsszenarien stehen ausführlich in [Qualitaetsszenarien.md](Qualitaetsszenarien.md), der vollständige Qualitätsbaum mit Priorisierung in [Qualitätsbaum QuizMaster.docx](Qualit%C3%A4tsbaum%20QuizMaster.docx). Hier die Zusammenfassung:
 
 H = hoch, M = mittel, N = niedrig · GNutz = geschäftlicher Nutzen · TRis = technisches Risiko
 
-| Qualitätsmerkmal | Verfeinerung | Qualitätsszenario (Kurzform) | GNutz | TRis |
-| --- | --- | --- | --- | --- |
-| **Änderbarkeit** | Inhalte anpassen | Ein Entwickler ändert ein bestehendes Quiz, ohne eine Datei manuell zu bearbeiten, fehlerfrei in max. 3 Minuten. | H | M |
-| **Zuverlässigkeit** | Fehlerhafte Eingaben | Beim Öffnen einer beschädigten Quizdatei erscheint eine verständliche Fehlermeldung, kein Absturz (100 % der Testfälle). | H | H |
-| **Benutzbarkeit** | Erlernbarkeit | Mindestens 90 % einer Testgruppe können ohne Einführung ein Quiz erfolgreich durchführen. | H | N |
-| **Leistungsfähigkeit** | Reaktionszeit | Die nächste Frage erscheint innerhalb von 500 ms. | M | N |
-| **Verfügbarkeit** | Startbereitschaft | Ein ausgewähltes Quiz ist innerhalb von 2 Sekunden startbereit. | M | N |
+| ID | Qualitätsmerkmal | Verfeinerung | Qualitätsszenario (Kurzform) | GNutz | TRis |
+| --- | --- | --- | --- | --- | --- |
+| Q1 | Effizienz | Zeitverhalten | Ein ausgewähltes Quiz ist innerhalb von 2 Sekunden startbereit. | M | N |
+| Q2 | Effizienz | Zeitverhalten | Die nächste Frage erscheint innerhalb von 500 ms. | M | N |
+| Q3 | Wartbarkeit | Änderbarkeit | Ein Entwickler ändert ein bestehendes Quiz, ohne eine Datei manuell zu bearbeiten, fehlerfrei in max. 3 Minuten. | H | M |
+| Q4 | Benutzbarkeit | Erlernbarkeit / Bedienbarkeit | Mindestens 90 % einer Testgruppe können ohne Einführung ein Quiz erfolgreich durchführen. | H | M |
+| Q5 | Zuverlässigkeit | Fehlertoleranz | Beim Öffnen einer beschädigten Quizdatei erscheint eine verständliche Fehlermeldung, kein Absturz (100 % der Testfälle). | H | M |
+
+*Hinweis:* In [Qualitaetsszenarien.md](Qualitaetsszenarien.md) sind Q1 und Q2 als „Verfügbarkeit“ und „Leistungsfähigkeit“ bezeichnet. Im Qualitätsbaum ordnen wir beide dem Merkmal **Effizienz (Zeitverhalten)** zu, weil es in beiden Fällen um Reaktionszeiten geht.
 
 **Begründung der Priorisierung:**
-- **Änderbarkeit** und **Zuverlässigkeit** haben den höchsten Nutzen, weil Spieler eigene Inhalte erstellen und teilen sollen. Das Projekt lebt davon, dass neue Fragetypen und Quizzes ohne großen Aufwand dazukommen und dass fremde, eventuell fehlerhafte Dateien die Anwendung nicht zum Absturz bringen.
-- Das technische Risiko bei der Zuverlässigkeit ist hoch, weil das Dateiformat für den Austausch noch nicht festgelegt ist.
-- Leistungsfähigkeit und Verfügbarkeit haben ein niedriges Risiko: Die Anwendung läuft lokal, die Datenmengen sind klein, und es gibt keine Netzwerkzugriffe.
+- **Q3 (Änderbarkeit)**, **Q4 (Benutzbarkeit)** und **Q5 (Zuverlässigkeit)** haben einen hohen geschäftlichen Nutzen: Spieler sollen eigene Inhalte erstellen und teilen, das Spiel muss ohne Einführung verständlich sein, und fremde, eventuell fehlerhafte Dateien dürfen die Anwendung nicht zum Absturz bringen.
+- **Q1 und Q2** haben ein niedriges Risiko: Die Anwendung läuft lokal, die Datenmengen sind klein, und es gibt keine Netzwerkzugriffe.
+- Für Schritt 2 haben wir **Q3 und Q5** ausgewählt, weil sie die Architektur am stärksten beeinflussen: Q3 bestimmt die Struktur des Codes und des Datenmodells, Q5 den Umgang mit importierten Daten. Q4 betrifft vor allem die Gestaltung der Oberfläche.
 
 ---
 
 ## 3. Schritt 2: Lösungsansätze für die wichtigsten Szenarien
 
-### Szenario A: Änderbarkeit
+### Szenario A: Änderbarkeit (Q3)
 
 | Ansatz | Nutzen | Aufwand | Risiko / Auswirkung auf andere Merkmale |
 | --- | --- | --- | --- |
@@ -65,7 +67,7 @@ H = hoch, M = mittel, N = niedrig · GNutz = geschäftlicher Nutzen · TRis = te
 
 **Gewählt:** alle vier Ansätze, siehe ADR-002 und ADR-003.
 
-### Szenario B: Zuverlässigkeit
+### Szenario B: Zuverlässigkeit (Q5)
 
 | Ansatz | Nutzen | Aufwand | Risiko / Auswirkung auf andere Merkmale |
 | --- | --- | --- | --- |
@@ -84,11 +86,11 @@ Jede Entscheidung ist als eigenes Architecture Decision Record (ADR) im Ordner [
 
 | Nr. | Entscheidung | Status | Unterstützt |
 | --- | --- | --- | --- |
-| [ADR-001](ADR/ADR-001-Java-Swing-Desktop-Anwendung.md) | Lokale Desktop-Anwendung mit Java Swing | angenommen | Randbedingungen, Leistungsfähigkeit |
-| [ADR-002](ADR/ADR-002-Schichtenarchitektur.md) | Schichtenarchitektur mit vier Schichten | angenommen | Änderbarkeit, Testbarkeit |
-| [ADR-003](ADR/ADR-003-Polymorphes-Fragenmodell.md) | Abstrakte Klasse `Question` mit Unterklassen je Fragetyp | angenommen | Änderbarkeit |
-| [ADR-004](ADR/ADR-004-SQLite-Persistenz.md) | Speicherung in einer lokalen SQLite-Datenbank über JDBC | angenommen | Zuverlässigkeit, Verfügbarkeit |
-| [ADR-005](ADR/ADR-005-Austausch-ueber-Dateien.md) | Austausch von Quizzes und NPCs über Dateien | vorgeschlagen | Zuverlässigkeit, Interoperabilität |
+| [ADR-001](ADR/ADR-001-Java-Swing-Desktop-Anwendung.md) | Lokale Desktop-Anwendung mit Java Swing | angenommen | Randbedingungen, Effizienz (Q1, Q2) |
+| [ADR-002](ADR/ADR-002-Schichtenarchitektur.md) | Schichtenarchitektur mit vier Schichten | angenommen | Änderbarkeit (Q3) |
+| [ADR-003](ADR/ADR-003-Polymorphes-Fragenmodell.md) | Abstrakte Klasse `Question` mit Unterklassen je Fragetyp | angenommen | Änderbarkeit (Q3) |
+| [ADR-004](ADR/ADR-004-SQLite-Persistenz.md) | Speicherung in einer lokalen SQLite-Datenbank über JDBC | angenommen | Zuverlässigkeit (Q5) |
+| [ADR-005](ADR/ADR-005-Austausch-ueber-Dateien.md) | Austausch von Quizzes und NPCs über Dateien | vorgeschlagen | Zuverlässigkeit (Q5) |
 
 ### Architekturstil: Schichtenarchitektur
 
