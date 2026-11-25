@@ -1,16 +1,10 @@
-# QuizMaster – Quiz UI (SCRUM-53)
+# QuizMaster – Quizbibliothek und Editor
 
-Die ausführbare Swing-Demo zeigt den NPC-Dialog mit Mila, alle vier Fragetypen und das Ergebnis. Sie verwendet die neuen `Question`-Unterklassen des Hauptprojekts. Der Dialog basiert auf dem Figma-Mockup; Fragen- und Ergebnisansicht führen dessen Gestaltung weiter.
+Im Modulmenü lässt sich Milas Beispielquiz öffnen oder ein eigenes Quiz erstellen. Für ein eigenes Quiz einen Namen eingeben, jede Frage mit „Frage hinzufügen“ bestätigen und „Quiz übernehmen“ wählen. Das neue Quiz ist dann zum Öffnen ausgewählt. Eigene Quizze stehen für die laufende Sitzung zur Verfügung. Sie verwendet die neuen `Question`-Unterklassen des Hauptprojekts. Der Dialog basiert auf dem Figma-Mockup; Fragen- und Ergebnisansicht führen dessen Gestaltung weiter.
 
 ## Starten
 
-Voraussetzung: JDK 17 oder neuer, `java` und `javac` im PATH. Im Repository-Verzeichnis:
-
-```powershell
-./QuizMaster/run.ps1
-```
-
-Der Launcher kompiliert nach `QuizMaster/out/classes` und kopiert die lokalen Ressourcen. Es werden keine Netzwerkdienste oder zusätzlichen Bibliotheken benötigt. Getestet mit JDK 21.0.7. Die bestehende Maven-Konfiguration fordert weiterhin JDK 25; sie wurde nicht geändert. Der direkte Launcher kompiliert kompatibel zu Java 17.
+Im geöffneten IntelliJ-Projekt [Main.java](src/main/java/de/quizmaster/Main.java) öffnen und neben `main` auf ▶ klicken.
 
 ## Verhalten
 
@@ -18,7 +12,7 @@ Der Launcher kompiliert nach `QuizMaster/out/classes` und kopiert die lokalen Re
 - Mehrfachauswahl erlaubt mehrere Häkchen; Wahr/Falsch genau eine Auswahl.
 - Freitext und alle Lücken müssen ausgefüllt sein. Lücken verwenden `{0}, {1}, …` oder `{1}, {2}, …`; die Antworten werden nach Platzhalternummer zugeordnet. Das bestehende Backend nutzt `;` als Trennzeichen, deshalb ist es innerhalb einer Lückenantwort nicht erlaubt.
 - Die Auswertung bleibt in `Question.checkAnswer()`, die Sterneschwellen bleiben in `Quiz.calculateStars()` (50/70/90 Prozent). Eine Antwort kann nur einmal Punkte erhalten.
-- Wiederholen startet einen neuen Durchlauf. Zurück ruft den übergebenen Menü-Callback auf. Die eigenständige Demo öffnet dabei wieder Milas Einstieg; ein vollständiges Modulmenü ist hier noch nicht implementiert.
+- Wiederholen startet einen neuen Durchlauf. Zurück ruft den übergebenen Menü-Callback auf. Im Modulmenü bleibt das zuletzt geöffnete Quiz ausgewählt.
 - Tab wechselt die Bedienelemente, Leertaste markiert, Enter bestätigt, Esc öffnet beim laufenden Quiz eine Rückfrage zum Verlassen. Lange Texte/Antwortlisten sind scrollbar. Die Hauptaktion bleibt bei der Mindestfenstergröße 1100 × 800 sichtbar.
 
 ## Einbindung
@@ -35,7 +29,9 @@ frame.repaint();
 
 `showModuleMenu` ist ein `Runnable` der aufrufenden Navigation. NPC-Name, Rolle, Begrüßung und Porträt stammen aus `Npc`; Mila ist nur der Demo-Datensatz. Die bisherigen öffentlichen Einstiegsmethoden der UI bleiben vorhanden. Die Modelle sollten während eines Durchlaufs nicht parallel bearbeitet werden.
 
-Workshop-Paketformat, SQLite-Persistenz und Editor sind noch eigenständige PoCs. Für die gemeinsame Anwendung fehlen noch Adapter zu den neuen `Question`-Unterklassen und die Anbindung an das Modulmenü.
+Der integrierte Editor erstellt die vier Fragetypen direkt. **Community Workshop** öffnet den Kartenkatalog im selben Fenster. Installierte Karten lassen sich offline spielen und exportieren. Der NPC auf der Karte öffnet die Quizansicht mit den Fragen aus dem Kartenpaket.
+
+Beim ersten Öffnen startet ein lokaler Workshop mit vier Beispielkarten. Veröffentlichungen in diesem Katalog bleiben auf dem eigenen Rechner. Für einen gemeinsamen Katalog kann in der Startkonfiguration von Main die Umgebungsvariable `QUIZMASTER_SERVER_URL` auf die Adresse des Workshop-Servers gesetzt werden, bei Bedarf zusammen mit `QUIZMASTER_TOKEN`. Die installierten Karten liegen unter `.quizmaster/workshop/library` im Benutzerverzeichnis.
 
 ## Prüfen
 

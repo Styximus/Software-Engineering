@@ -28,9 +28,7 @@ public class QuizEditorService {
     /**
      * @param optionsText eine Antwortmöglichkeit pro Zeile
      * @param correctText richtige Optionen als Nummern, z. B. "1,3".
-     *                    ACHTUNG: 1-basiert. MultipleChoiceQuestion.checkAnswer vergleicht
-     *                    die eingegebenen Zahlen direkt mit diesem Array, die Quiz-UI muss
-     *                    die Optionen also ebenfalls ab 1 nummerieren (mit Matthias klären).
+     *                    Die Benutzereingabe zählt ab 1, das Modell ab 0.
      */
     public void addMultipleChoiceQuestion(String text, String optionsText, String correctText, int points) {
         checkCommon(text, points);
@@ -47,7 +45,7 @@ public class QuizEditorService {
 
         int[] correct;
         try {
-            correct = Arrays.stream(correctText.split(","))
+            correct = Arrays.stream(correctText.split(",", -1))
                     .map(String::trim)
                     .mapToInt(Integer::parseInt)
                     .sorted()
@@ -62,7 +60,8 @@ public class QuizEditorService {
             }
         }
 
-        questions.add(new MultipleChoiceQuestion(nextId++, text.trim(), options, correct, points));
+        int[] indices = Arrays.stream(correct).map(number -> number - 1).toArray();
+        questions.add(new MultipleChoiceQuestion(nextId++, text.trim(), options, indices, points));
     }
 
     /**
@@ -81,10 +80,8 @@ public class QuizEditorService {
         }
 
         ClozeTestQuestion question = new ClozeTestQuestion(nextId, text.trim(), answers, points);
-        int gaps = question.getGapCount();
-        if (gaps != answers.length) {
-            throw new IllegalArgumentException("Der Text hat " + gaps + " Lücke(n), es wurden aber "
-                    + answers.length + " Antwort(en) angegeben.");
+        if (question.firstGapNumber() < 0) {
+            throw new IllegalArgumentException("Nummeriere die Lücken fortlaufend und gib für jede Nummer eine Antwort an.");
         }
         questions.add(question);
         nextId++;

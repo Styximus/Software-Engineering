@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.nio.file.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import de.quizmaster.workshop.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 /** Dependency-free behavioral checks; run with run.ps1 -Test [-Screenshots]. */
 public final class QuizUiTest {
@@ -14,6 +17,8 @@ public final class QuizUiTest {
         if (args.length > 0) { screenshots = Path.of(args[0]); Files.createDirectories(screenshots); }
         modelChecks();
         SwingUtilities.invokeAndWait(QuizUiTest::uiChecks);
+        SwingUtilities.invokeAndWait(QuizUiTest::editorRoundTrip);
+        workshopRoundTrip();
         System.out.println("PASS: " + assertions + " assertions (models, session, Swing flow)." );
     }
     private static void check(boolean condition, String message) {
@@ -101,6 +106,116 @@ public final class QuizUiTest {
         button(longUi, "answer-1").doClick(0); button(longUi, "primary").doClick(0);
         capture(root, "10-long-feedback", 1084, 761);
     }
+    private static void editorRoundTrip() {
+        ModuleMenu menu = new ModuleMenu();
+        JRootPane root = new JRootPane();
+        root.setContentPane(menu);
+        capture(root, "11-library", 1100, 800, "create");
+        button(menu, "create").doClick(0);
+        button(menu, "editor-cancel").doClick(0);
+        JComboBox<?> modules = (JComboBox<?>) find(menu, "modules");
+        check(modules.getItemCount() == 1, "Cancel leaves library intact");
+        button(menu, "create").doClick(0);
+        ((JTextField)find(menu, "editor-title")).setText("Farben");
+        button(menu, "editor-save").doClick(0);
+        check(search(menu, "editor-title") != null, "Empty quiz stays in editor");
+        ((JComboBox<?>)find(menu, "editor-type")).setSelectedItem("Multiple Choice");
+        ((JTextField)find(menu, "editor-question")).setText("Welche Farben kommen im Regenbogen vor?");
+        ((JTextArea)find(menu, "editor-options")).setText("Rot\nSchwarz\nBlau");
+        ((JTextField)find(menu, "editor-correct")).setText("1,3");
+        capture(root, "12-editor", 1100, 800, "editor-add");
+        button(menu, "editor-add").doClick(0);
+        button(menu, "editor-save").doClick(0);
+        check(modules.getItemCount() == 2 && modules.getSelectedItem().toString().equals("Farben"), "New quiz selected");
+        button(menu, "play").doClick(0);
+        button(menu, "primary").doClick(0);
+        button(menu, "answer-0").doClick(0);
+        button(menu, "answer-2").doClick(0);
+        button(menu, "primary").doClick(0);
+        button(menu, "primary").doClick(0);
+        check(((JLabel)find(menu, "score")).getText().equals("1 / 1"), "Editor numbers match player indices");
+        button(menu, "back").doClick(0);
+        check(find(menu, "modules") == modules && modules.getSelectedIndex() == 1, "Result returns to own quiz");
+        modules.setSelectedIndex(0);
+        button(menu, "play").doClick(0);
+        button(menu, "primary").doClick(0);
+        check(((QuestionUserInterface)menu.getComponent(0)).getSession().total() == 5, "Demo still available");
+        QuizEditorService editor = new QuizEditorService();
+        rejects(() -> editor.addClozeQuestion("{1}, {3}", "x;y", 1), "Reject unplayable gap numbers");
+        editor.addClozeQuestion("{2}, {1}, {2}", "a;b", 1);
+        check(editor.buildQuiz(3).getQuestions()[0].checkAnswer("a;b"), "Repeated gaps refer to the same field");
+    }
+
+    private static <T> T onEdt(Callable<T> read) throws Exception {
+        FutureTask<T> task = new FutureTask<>(read);
+        SwingUtilities.invokeAndWait(task);
+        return task.get();
+    }
+
+    private static void awaitButton(Container host, String name) throws Exception {
+        long end = System.nanoTime() + java.util.concurrent.TimeUnit.SECONDS.toNanos(16);
+        while (System.nanoTime() < end) {
+            if (onEdt(() -> search(host, name) instanceof AbstractButton button && button.isEnabled())) return;
+            Thread.sleep(25);
+        }
+        throw new AssertionError("Action unavailable: " + name);
+    }
+
+    private static void workshopRoundTrip() throws Exception {
+        Path data = Files.createTempDirectory("quizmaster-workshop-");
+        try (WorkshopConnection connection = new WorkshopConnection(data, null, null)) {
+            JPanel host = onEdt(() -> new JPanel(new BorderLayout()));
+            Runnable back = () -> { host.removeAll(); host.add(new ModuleMenu()); };
+            byte[] bytes;
+            try (var in = QuizUiTest.class.getResourceAsStream("/workshop/waldpfad.qmap")) {
+                bytes = in.readAllBytes();
+            }
+            String id = MapPackage.hash(bytes);
+            onEdt(() -> host.add(connection.view(panel -> { host.removeAll(); host.add(panel); }, back)));
+            awaitButton(host, "map-" + id);
+            onEdt(() -> { button(host, "map-" + id).doClick(0); button(host, "install").doClick(0); return null; });
+            awaitButton(host, "library");
+            onEdt(() -> {
+                button(host, "library").doClick(0);
+                button(host, "install").doClick(0);
+                MapUI map = (MapUI) SwingUtilities.getAncestorOfClass(MapUI.class, find(host, "interact"));
+                map.getActionMap().get("RIGHT").actionPerformed(null);
+                map.getActionMap().get("RIGHT").actionPerformed(null);
+                button(host, "interact").doClick(0);
+                button(host, "primary").doClick(0);
+                button(host, "answer-1").doClick(0);
+                button(host, "primary").doClick(0);
+                QuestionUserInterface quiz = (QuestionUserInterface)host.getComponent(0);
+                check(quiz.getReachedPoints() == 10 && quiz.getSession().total() == 3, "Workshop NPC plays installed quiz");
+                check(((JTextArea)find(host, "feedback")).getText().contains("Waldtiere"), "Package explanation displayed");
+                button(host, "primary").doClick(0);
+                button(host, "answer-0").doClick(0);
+                button(host, "primary").doClick(0); button(host, "primary").doClick(0);
+                ((JTextField)find(host, "gap-0")).setText("Säugetier");
+                ((JTextField)find(host, "gap-1")).setText("Lungen");
+                button(host, "primary").doClick(0); button(host, "primary").doClick(0);
+                check(((JLabel)find(host, "score")).getText().equals("30 / 30"), "Installed map final score");
+                button(host, "back").doClick(0);
+                check(search(host, "workshop") != null, "Workshop quiz returns to main menu");
+                return null;
+            });
+            check(new WorkshopStore(data.resolve("library")).contains(id), "Installed map persists");
+            try (WorkshopServer shared = new WorkshopServer("127.0.0.1", 0, data.resolve("shared"), "test-key")) {
+                String address = "http://127.0.0.1:" + shared.port();
+                new WorkshopClient(address, "test-key").publish(bytes);
+                WorkshopClient second = new WorkshopClient(address, "test-key");
+                check(second.list().get(0).id().equals(id), "Second client finds published map");
+                WorkshopStore library = new WorkshopStore(data.resolve("another-client"));
+                second.install(id, library);
+                check(java.util.Arrays.equals(bytes, library.read(id)), "Shared server delivers original map");
+            }
+        } finally {
+            try (var paths = Files.walk(data)) {
+                for (Path path : paths.sorted(java.util.Comparator.reverseOrder()).toList()) Files.deleteIfExists(path);
+            }
+        }
+    }
+
     private static AbstractButton button(Container parent, String name) { return (AbstractButton)find(parent, name); }
     private static Component find(Container parent, String name) {
         Component found = search(parent, name); if (found == null) throw new AssertionError("Missing component: " + name); return found;
@@ -113,8 +228,11 @@ public final class QuizUiTest {
     }
     private static void layout(Container parent) { parent.doLayout(); for (Component child : parent.getComponents()) if (child instanceof Container c) layout(c); }
     private static void capture(JRootPane root, String name, int width, int height) {
+        capture(root, name, width, height, "primary");
+    }
+    private static void capture(JRootPane root, String name, int width, int height, String actionName) {
         root.setSize(width, height); for (int i = 0; i < 3; i++) layout(root);
-        Component primary = find(root, "primary");
+        Component primary = find(root, actionName);
         Rectangle action = SwingUtilities.convertRectangle(primary.getParent(), primary.getBounds(), root);
         check(new Rectangle(0, 0, width, height).contains(action), "Primary action stays on screen: " + name);
         for (Container parent = primary.getParent(); parent != null; parent = parent.getParent()) {

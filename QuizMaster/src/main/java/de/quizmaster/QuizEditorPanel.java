@@ -2,19 +2,16 @@ package de.quizmaster;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
-/**
- * Quiz-Editor als modaler Dialog (schließt nicht die ganze Anwendung).
- * Beim Speichern wird onSave mit dem Service aufgerufen; dort kann der Aufrufer
- * service.buildQuiz(id) abholen.
- */
-public class QuizEditorDialog extends JDialog {
-
+/** Question form shared by the module menu and the standalone modal editor. */
+final class QuizEditorPanel extends JPanel {
     private static final String[] TYPES = {"Text", "Wahr/Falsch", "Multiple Choice", "Lückentext"};
 
     private final QuizEditorService service = new QuizEditorService();
-    private final Consumer<QuizEditorService> onSave;
+    private final BiConsumer<String, QuizEditorService> onSave;
+    private final Runnable onCancel;
+    private final JTextField titleField = new JTextField();
 
     private final DefaultListModel<String> listModel = new DefaultListModel<>();
     private final JList<String> questionList = new JList<>(listModel);
@@ -24,7 +21,7 @@ public class QuizEditorDialog extends JDialog {
     private final JTextField questionField = new JTextField();
 
     private final CardLayout cards = new CardLayout();
-    private final JPanel cardPanel = new JPanel(cards);
+    private final JPanel cardPanel = QuizTheme.clear(cards);
     private final JTextField textAnswerField = new JTextField();
     private final JComboBox<String> trueFalseBox = new JComboBox<>(new String[]{"Wahr", "Falsch"});
     private final JTextArea optionsArea = new JTextArea(4, 20);
@@ -33,60 +30,84 @@ public class QuizEditorDialog extends JDialog {
 
     private final JLabel statusLabel = new JLabel(" ");
 
-    public QuizEditorDialog(Frame owner, Consumer<QuizEditorService> onSave) {
-        super(owner, "Quiz-Editor", true);
+    QuizEditorPanel(BiConsumer<String, QuizEditorService> onSave, Runnable onCancel) {
+        super(new BorderLayout(12, 16));
         this.onSave = onSave;
-
-        setSize(820, 520);
-        setLocationRelativeTo(owner);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-        JPanel content = new JPanel(new BorderLayout(10, 10));
-        content.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
-
+        this.onCancel = onCancel;
+        setBackground(QuizTheme.CREAM);
+        statusLabel.setFont(QuizTheme.body(15));
+        statusLabel.setForeground(QuizTheme.INK);
+        setBorder(BorderFactory.createEmptyBorder(24, 28, 24, 28));
+        JPanel header = QuizTheme.clear(new BorderLayout(16, 8));
+        header.add(QuizTheme.label("Quiz erstellen", QuizTheme.heading(32), QuizTheme.INK), BorderLayout.NORTH);
+        JLabel titleLabel = QuizTheme.label("Quizname", QuizTheme.bold(15), QuizTheme.GREEN);
+        titleLabel.setLabelFor(titleField);
+        titleField.setName("editor-title");
+        titleField.setFont(QuizTheme.body(18));
+        header.add(titleLabel, BorderLayout.WEST);
+        header.add(titleField, BorderLayout.CENTER);
+        add(header, BorderLayout.NORTH);
         JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, buildListPanel(), buildFormPanel());
-        split.setResizeWeight(0.4);
-        content.add(split, BorderLayout.CENTER);
-        content.add(buildFooter(), BorderLayout.SOUTH);
-
-        setContentPane(content);
+        split.setBackground(QuizTheme.CREAM);
+        split.setBorder(null);
+        split.setResizeWeight(0.35);
+        add(split, BorderLayout.CENTER);
+        add(buildFooter(), BorderLayout.SOUTH);
     }
 
     private JPanel buildListPanel() {
-        JButton removeButton = new JButton("Entfernen");
+        JButton removeButton = QuizTheme.button("Frage entfernen", "editor-remove", false);
+        removeButton.setEnabled(false);
+        questionList.addListSelectionListener(e -> removeButton.setEnabled(!questionList.isSelectionEmpty()));
+        questionList.setFont(QuizTheme.body(16));
         removeButton.addActionListener(e -> removeSelected());
 
-        JPanel p = new JPanel(new BorderLayout(5, 5));
-        p.setBorder(BorderFactory.createTitledBorder("Fragen im Quiz"));
+        JPanel p = QuizTheme.clear(new BorderLayout(5, 5));
+        p.setBorder(BorderFactory.createEmptyBorder(18, 18, 18, 18));
+        p.setBackground(QuizTheme.FIELD);
+        p.setOpaque(true);
+        p.add(QuizTheme.label("Fragen im Quiz", QuizTheme.heading(22), QuizTheme.INK), BorderLayout.NORTH);
         p.add(new JScrollPane(questionList), BorderLayout.CENTER);
         p.add(removeButton, BorderLayout.SOUTH);
         return p;
     }
 
     private JPanel buildFormPanel() {
+        questionField.setName("editor-question");
+        typeBox.setName("editor-type");
+        optionsArea.setName("editor-options");
+        optionsArea.setFont(QuizTheme.body(16));
+        correctField.setName("editor-correct");
         cardPanel.add(singleFieldCard("Richtige Antwort:", textAnswerField), TYPES[0]);
         cardPanel.add(singleFieldCard("Richtige Antwort:", trueFalseBox), TYPES[1]);
         cardPanel.add(buildMultipleChoiceCard(), TYPES[2]);
-        cardPanel.add(singleFieldCard("Antworten (mit ; trennen):", clozeAnswersField), TYPES[3]);
+        JPanel cloze = singleFieldCard("Antworten (mit ; trennen):", clozeAnswersField);
+        JPanel clozeCard = QuizTheme.clear(new BorderLayout(0, 6));
+        clozeCard.add(cloze, BorderLayout.NORTH);
+        clozeCard.add(QuizTheme.label("Lücken im Fragetext mit {1}, {2}, … markieren.", QuizTheme.body(14), QuizTheme.MUTED), BorderLayout.SOUTH);
+        cardPanel.add(clozeCard, TYPES[3]);
 
         typeBox.addActionListener(e -> cards.show(cardPanel, (String) typeBox.getSelectedItem()));
 
-        JButton addButton = new JButton("Frage hinzufügen");
+        JButton addButton = QuizTheme.button("Frage hinzufügen", "editor-add", false);
         addButton.addActionListener(e -> addQuestion());
 
-        JPanel top = new JPanel(new GridBagLayout());
+        JPanel top = QuizTheme.clear(new GridBagLayout());
         addRow(top, 0, "Fragetyp:", typeBox);
         addRow(top, 1, "Punkte:", pointsField);
         addRow(top, 2, "Fragetext:", questionField);
 
-        JLabel hint = new JLabel("<html><small>Lückentext: Lücken im Fragetext als {1}, {2}, ... schreiben.</small></html>");
 
-        JPanel p = new JPanel(new BorderLayout(5, 5));
-        p.setBorder(BorderFactory.createTitledBorder("Neue Frage"));
-        p.add(top, BorderLayout.NORTH);
-        JPanel middle = new JPanel(new BorderLayout(5, 5));
+        JPanel p = QuizTheme.clear(new BorderLayout(5, 5));
+        p.setBorder(BorderFactory.createEmptyBorder(18, 18, 18, 18));
+        p.setBackground(QuizTheme.FIELD);
+        p.setOpaque(true);
+        JPanel fields = QuizTheme.clear(new BorderLayout(0, 12));
+        fields.add(QuizTheme.label("Neue Frage", QuizTheme.heading(22), QuizTheme.INK), BorderLayout.NORTH);
+        fields.add(top, BorderLayout.CENTER);
+        p.add(fields, BorderLayout.NORTH);
+        JPanel middle = QuizTheme.clear(new BorderLayout(5, 5));
         middle.add(cardPanel, BorderLayout.NORTH);
-        middle.add(hint, BorderLayout.SOUTH);
         p.add(middle, BorderLayout.CENTER);
         p.add(addButton, BorderLayout.SOUTH);
         return p;
@@ -94,29 +115,30 @@ public class QuizEditorDialog extends JDialog {
 
     private JPanel buildMultipleChoiceCard() {
         optionsArea.setLineWrap(true);
-        JPanel p = new JPanel(new GridBagLayout());
+        JPanel p = QuizTheme.clear(new GridBagLayout());
         addRow(p, 0, "Optionen (eine pro Zeile):", new JScrollPane(optionsArea));
         addRow(p, 1, "Richtig (z. B. 1,3):", correctField);
         return p;
     }
 
     private JPanel singleFieldCard(String label, JComponent field) {
-        JPanel p = new JPanel(new GridBagLayout());
+        JPanel p = QuizTheme.clear(new GridBagLayout());
         addRow(p, 0, label, field);
         return p;
     }
 
     private JPanel buildFooter() {
-        JButton saveButton = new JButton("Quiz speichern");
+        JButton saveButton = QuizTheme.button("Quiz übernehmen", "editor-save", true);
+        saveButton.setToolTipText("Für diese Sitzung ins Modulmenü übernehmen");
         saveButton.addActionListener(e -> save());
-        JButton cancelButton = new JButton("Abbrechen");
-        cancelButton.addActionListener(e -> dispose());
+        JButton cancelButton = QuizTheme.button("Abbrechen", "editor-cancel", false);
+        cancelButton.addActionListener(e -> onCancel.run());
 
-        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel buttons = QuizTheme.clear(new FlowLayout(FlowLayout.RIGHT));
         buttons.add(cancelButton);
         buttons.add(saveButton);
 
-        JPanel p = new JPanel(new BorderLayout());
+        JPanel p = QuizTheme.clear(new BorderLayout());
         p.add(statusLabel, BorderLayout.CENTER);
         p.add(buttons, BorderLayout.EAST);
         return p;
@@ -162,11 +184,11 @@ public class QuizEditorDialog extends JDialog {
 
     private void save() {
         try {
-            service.buildQuiz(1); // nur zur Validierung (mind. eine Frage)
-            if (onSave != null) {
-                onSave.accept(service);
-            }
-            dispose();
+            String title = titleField.getText().strip();
+            if (title.isEmpty()) throw new IllegalArgumentException("Bitte gib deinem Quiz einen Namen.");
+            if (!questionField.getText().isBlank()) throw new IllegalArgumentException("Bitte die aktuelle Frage zuerst hinzufügen.");
+            if (service.getQuestions().isEmpty()) throw new IllegalArgumentException("Füge zuerst eine Frage hinzu.");
+            onSave.accept(title, service);
         } catch (IllegalArgumentException ex) {
             setStatus(ex.getMessage());
         }
@@ -198,21 +220,14 @@ public class QuizEditorDialog extends JDialog {
         c.insets = new Insets(3, 3, 3, 3);
         c.anchor = GridBagConstraints.WEST;
         c.gridx = 0;
-        panel.add(new JLabel(label), c);
+        JLabel caption = QuizTheme.label(label, QuizTheme.bold(14), QuizTheme.INK);
+        field.setFont(QuizTheme.body(16));
+        caption.setLabelFor(field);
+        panel.add(caption, c);
         c.gridx = 1;
         c.weightx = 1;
         c.fill = GridBagConstraints.HORIZONTAL;
         panel.add(field, c);
     }
 
-    /** Zum schnellen Testen ohne das restliche Spiel. */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            QuizEditorDialog dialog = new QuizEditorDialog(null, s -> {
-                Quiz quiz = s.buildQuiz(1);
-                System.out.println(quiz.getQuestions().length + " Fragen, " + quiz.getMaxPoints() + " Punkte");
-            });
-            dialog.setVisible(true);
-        });
-    }
 }

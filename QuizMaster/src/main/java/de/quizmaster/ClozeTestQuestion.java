@@ -19,6 +19,20 @@ public class ClozeTestQuestion extends Question{
     public void setAnswer(String[] answers) {
         this.answers = answers.clone();
     }
+    /** First placeholder number, or -1 if the numbered fields cannot represent these answers. */
+    public int firstGapNumber() {
+        var numbers = new java.util.TreeSet<Integer>();
+        Matcher matcher = Pattern.compile("\\{(\\d+)\\}").matcher(getQuestionText());
+        try {
+            while (matcher.find()) numbers.add(Integer.parseInt(matcher.group(1)));
+        } catch (NumberFormatException invalidNumber) {
+            return -1;
+        }
+        if (numbers.isEmpty() || numbers.size() != answers.length) return -1;
+        int first = numbers.first();
+        return first <= 1 && numbers.last() - first == answers.length - 1 ? first : -1;
+    }
+
     public int getGapCount() {
         Matcher matcher = Pattern.compile("\\{\\d+\\}").matcher(getQuestionText());
         int count = 0;

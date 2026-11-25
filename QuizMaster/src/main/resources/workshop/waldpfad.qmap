@@ -1,0 +1,50 @@
+```properties
+format=1
+title=Milas Waldpfad
+author=Mila · Demo
+category=Natur
+description=Ein kleiner Wald, ein neugieriger NPC und drei Fragen über die Natur. Erkunde den Pfad und sprich mit Mila.
+
+width=16
+height=10
+row.0=~~~~~~~~~~~~~~~~
+row.1=~..TT.....TT...~
+row.2=~..T.......T...~
+row.3=~..............~
+row.4=~...........#..~
+row.5=~..##..........~
+row.6=~.......TT.....~
+row.7=~...T..........~
+row.8=~..............~
+row.9=~~~~~~~~~~~~~~~~
+
+spawn.x=2
+spawn.y=4
+npc.x=5
+npc.y=4
+npc.name=Mila
+
+questions=3
+
+q.0.type=MULTIPLE_CHOICE
+q.0.text=Welcher Baum trägt Eicheln?
+q.0.points=10
+q.0.correct=1
+q.0.explanation=Eicheln sind die Früchte der Eiche. Sie sind Nahrung für viele Waldtiere.
+q.0.a.0=Die Buche
+q.0.a.1=Die Eiche
+q.0.a.2=Die Birke
+q.0.a.3=Die Fichte
+
+q.1.type=TRUE_FALSE
+q.1.text=Alle Pflanzen benötigen Sonnenlicht für die Fotosynthese.
+q.1.points=10
+q.1.correct=true
+q.1.explanation=Pflanzen nutzen Lichtenergie, um aus Wasser und Kohlenstoffdioxid Zucker zu bilden.
+
+q.2.type=CLOZE_TEST
+q.2.text=Der Delfin ist ein {0}, der mit {1} atmet und seine Jungen säugt.
+q.2.points=10
+q.2.correct=Säugetier;Lungen
+q.2.explanation=Delfine sind Säugetiere. Sie atmen Luft mit Lungen und säugen ihre Jungen.
+```

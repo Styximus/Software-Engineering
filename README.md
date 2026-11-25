@@ -1,3 +1,9 @@
+# QuizMaster
+
+In IntelliJ IDEA den Projektordner öffnen und in [Main.java](QuizMaster/src/main/java/de/quizmaster/Main.java) neben der Methode `main` auf ▶ klicken.
+
+Im Modulmenü öffnet **Community Workshop** den Kartenkatalog. Eine Karte auswählen, **Herunterladen** und dann **Karte spielen** anklicken.
+
 ## Dokumentation
 
 - [Softwareanforderungsspezifikation (SRS)](docs/SoftwareAnforderungsspezifikation.md)

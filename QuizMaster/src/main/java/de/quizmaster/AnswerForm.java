@@ -5,7 +5,6 @@ import java.awt.font.*;
 import java.text.AttributedString;
 import java.util.*;
 import java.util.List;
-import java.util.regex.*;
 import java.util.stream.Collectors;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -45,13 +44,8 @@ final class AnswerForm extends JPanel implements Scrollable {
             case CLOZE_TEST -> {
                 instructions = "Fülle jede Lücke aus. Bitte verwende kein Semikolon (;).";
                 int gaps = ((ClozeTestQuestion) question).getAnswer().length;
-                TreeSet<Integer> numbers = new TreeSet<>();
-                Matcher m = Pattern.compile("\\{(\\d+)\\}").matcher(question.getQuestionText());
-                try { while (m.find()) numbers.add(Integer.parseInt(m.group(1))); }
-                catch (NumberFormatException invalidNumber) { valid = false; }
-                int first = numbers.isEmpty() ? 1 : numbers.first();
-                valid = valid && gaps > 0 && numbers.size() == gaps && (first == 0 || first == 1)
-                    && numbers.last() == first + gaps - 1;
+                int first = ((ClozeTestQuestion) question).firstGapNumber();
+                valid = first >= 0;
                 if (valid) for (int i = 0; i < gaps; i++) field("Lücke {" + (first + i) + "}", "gap-" + i, changed);
                 else add(QuizTheme.text("Diese Lückentext-Vorlage ist unvollständig. Bitte prüfe die Platzhalter und Antworten im Editor.", QuizTheme.body(15), QuizTheme.ERROR));
             }

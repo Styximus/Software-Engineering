@@ -16,6 +16,7 @@ public class QuestionUserInterface extends JPanel {
     private final int initialPoints;
     private String quizTitle = "Dein Quiz", topic = "Gemeinsam lernen";
     private Runnable onClose;
+    private java.util.Map<Integer, String> explanations = java.util.Map.of();
     private final JPanel stage = new ViewportStage();
     private final JLabel points = QuizTheme.label("", QuizTheme.bold(14), QuizTheme.INK);
     private final JLabel stars = QuizTheme.label("", QuizTheme.bold(14), QuizTheme.INK);
@@ -59,6 +60,15 @@ public class QuestionUserInterface extends JPanel {
     }
     public QuestionUserInterface(int id, Npc npc, Quiz quiz, String title, String topic, Runnable onClose) {
         this(id, npc, quiz, 0); quizTitle = title; this.topic = topic; this.onClose = onClose; render();
+    }
+    public QuestionUserInterface(int id, Npc npc, Quiz quiz, String title, String topic,
+                                 Runnable onClose, java.util.List<String> notes) {
+        this(id, npc, quiz, title, topic, onClose);
+        Question[] questions = quiz.getQuestions();
+        if (notes.size() != questions.length) throw new IllegalArgumentException("Erklärungen passen nicht zum Quiz.");
+        var byId = new java.util.HashMap<Integer, String>();
+        for (int i = 0; i < questions.length; i++) byId.put(questions[i].getId(), notes.get(i));
+        explanations = java.util.Map.copyOf(byId);
     }
     @Override public void paint(Graphics graphics) {
         Graphics2D g = (Graphics2D) graphics.create();
@@ -264,6 +274,8 @@ public class QuestionUserInterface extends JPanel {
         form.lock(); feedback.setForeground(session.correct() ? QuizTheme.GREEN : QuizTheme.ERROR);
         feedback.setText(session.correct() ? "Richtig! +" + session.current().getPoints() + " Punkte.\nGut gemacht, weiter zur nächsten Entdeckung."
             : "Diesmal leider nicht.\nRichtige Antwort: " + solution(session.current()));
+        String explanation = explanations.get(session.current().getId());
+        if (explanation != null) feedback.append("\n" + explanation);
         primary.setText(session.index() + 1 == session.total() ? "Ergebnis ansehen" : "Nächste Frage"); primary.setEnabled(true);
     }
     public void endGame() { session.finish(); render(); }
