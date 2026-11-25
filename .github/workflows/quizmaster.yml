@@ -1,0 +1,46 @@
+name: QuizMaster CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: QuizMaster
+        shell: pwsh
+    steps:
+      - name: Quellcode auschecken
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+
+      - name: Temurin 21 einrichten
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: QuizMaster/pom.xml
+
+      - name: Anwendung und Testklassen bauen
+        run: mvn --batch-mode --no-transfer-progress -DskipTests clean package
+
+      - name: Quiz und Workshop aus dem JAR prüfen
+        run: java '-Djava.awt.headless=true' -cp 'target/test-classes;target/QuizMaster.jar' de.quizmaster.QuizUiTest
+
+      - name: Geprüftes JAR bereitstellen
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: QuizMaster
+          path: QuizMaster/target/QuizMaster.jar
+          if-no-files-found: error
+          retention-days: 14
